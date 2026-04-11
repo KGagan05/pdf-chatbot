@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>PDF Chatbot</title>
+</head>
+
+<body>
+
+    <h1>📄 PDF Chatbot</h1>
+
+    <h3>Upload PDF</h3>
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    {% if message %}
+    <p>{{message}}</p>
+    {% endif %}
+
+    <hr>
+
+    <h3>Ask Question</h3>
+    <form action="/ask" method="post">
+        <input type="text" name="question" placeholder="Ask something..." required>
+        <button type="submit">Ask</button>
+    </form>
+
+    {% if answer %}
+    <p><b>You:</b> {{question}}</p>
+    <p><b>Bot:</b> {{answer}}</p>
+    {% endif %}
+
+</body>
+
+</html>
