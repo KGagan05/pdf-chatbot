@@ -3,12 +3,8 @@ from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 from transformers import pipeline
-from rag import process_pdf, ask_question 
 
-# Load embedding model
 model = SentenceTransformer('all-MiniLM-L6-v2')
-
-# Load LLM
 qa_pipeline = pipeline("text-generation", model="google/flan-t5-base")
 
 chunks = []
@@ -25,7 +21,6 @@ def process_pdf(file):
     for page in reader.pages:
         text += page.extract_text() or ""
 
-    # Split text
     chunks = [text[i:i+500] for i in range(0, len(text), 500)]
 
     embeddings = model.encode(chunks)

@@ -4,6 +4,8 @@ from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 import shutil
 import os
+from rag import process_pdf, ask_question 
+
 
 from rag import process_pdf, ask_question
 
