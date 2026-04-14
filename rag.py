@@ -1,3 +1,32 @@
+from transformers import pipeline
+from rag import process_pdf, ask_question
+# Load LLM
+qa_pipeline = pipeline("text-generation", model="google/flan-t5-base")
+
+def ask_question(question):
+
+    question_embedding = model.encode([question])
+    D, I = index.search(np.array(question_embedding), k=1)
+
+    context = chunks[I[0][0]]
+
+    prompt = f"""
+    Answer the question based on the context below:
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+
+    Answer:
+    """
+
+
+    response = qa_pipeline(prompt, max_length=200)
+
+    return response[0]['generated_text']
+
 from PyPDF2 import PdfReader
 from sentence_transformers import SentenceTransformer
 import faiss
@@ -5,11 +34,11 @@ import numpy as np
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-# Store data
 chunks = []
 index = None
 
-def process_pdf(file):
+
+def process_pdf(file):   # ✅ THIS MUST EXIST
 
     global chunks, index
 
@@ -26,12 +55,3 @@ def process_pdf(file):
 
     index = faiss.IndexFlatL2(embeddings.shape[1])
     index.add(np.array(embeddings))
-
-
-def ask_question(question):
-
-    question_embedding = model.encode([question])
-
-    D, I = index.search(np.array(question_embedding), k=1)
-
-    return chunks[I[0][0]]

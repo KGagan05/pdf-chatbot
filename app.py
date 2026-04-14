@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File, Request, Form
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
+from fastapi.staticfiles import StaticFiles
 import shutil
 import os
 
@@ -8,6 +9,7 @@ from rag import process_pdf, ask_question
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)

@@ -2,35 +2,48 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF Chatbot</title>
+    <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
+    <div class="page-shell">
+        <header class="hero">
+            <h1>PDF Chatbot</h1>
+            <p class="subtitle">Upload a document and ask natural-language questions about its content.</p>
+        </header>
 
-    <h1>📄 PDF Chatbot</h1>
+        <main class="content-grid">
+            <section class="card">
+                <h2>Upload PDF</h2>
+                <form action="/upload" method="post" enctype="multipart/form-data" class="stack-form">
+                    <input type="file" name="file" required>
+                    <button type="submit">Upload</button>
+                </form>
 
-    <h3>Upload PDF</h3>
-    <form action="/upload" method="post" enctype="multipart/form-data">
-        <input type="file" name="file" required>
-        <button type="submit">Upload</button>
-    </form>
+                {% if message %}
+                <p class="status success">{{message}}</p>
+                {% endif %}
+            </section>
 
-    {% if message %}
-    <p>{{message}}</p>
-    {% endif %}
+            <section class="card">
+                <h2>Ask Question</h2>
+                <form action="/ask" method="post" class="stack-form">
+                    <input type="text" name="question" placeholder="Ask something about your PDF..." required>
+                    <button type="submit">Ask</button>
+                </form>
 
-    <hr>
-
-    <h3>Ask Question</h3>
-    <form action="/ask" method="post">
-        <input type="text" name="question" placeholder="Ask something..." required>
-        <button type="submit">Ask</button>
-    </form>
-
-    {% if answer %}
-    <p><b>You:</b> {{question}}</p>
-    <p><b>Bot:</b> {{answer}}</p>
-    {% endif %}
+                {% if answer %}
+                <div class="chat-result">
+                    <p><b>You:</b> {{question}}</p>
+                    <p><b>Bot:</b> {{answer}}</p>
+                </div>
+                {% endif %}
+            </section>
+        </main>
+    </div>
 
 </body>
 

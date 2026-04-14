@@ -1,0 +1,153 @@
+:root {
+  color-scheme: light;
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --border: #dbe3ee;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --success-bg: #e8f7ee;
+  --success-text: #0f5132;
+  --shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: radial-gradient(circle at top, #eef4ff 0%, var(--bg) 45%);
+  color: var(--text);
+}
+
+.page-shell {
+  width: min(960px, 92%);
+  margin: 3rem auto;
+}
+
+.hero {
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  line-height: 1.15;
+}
+
+.subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+}
+
+.card h2 {
+  margin: 0 0 1rem;
+  font-size: 1.1rem;
+}
+
+.stack-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+input[type="file"],
+input[type="text"] {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  background: #fff;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+input[type="text"]::placeholder {
+  color: #9aa4b2;
+}
+
+input[type="text"]:focus,
+input[type="file"]:focus {
+  outline: none;
+  border-color: #93b4ff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+button {
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1rem;
+  background: linear-gradient(180deg, #3774f6 0%, var(--primary) 100%);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
+  background: linear-gradient(180deg, #2968f4 0%, var(--primary-dark) 100%);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.status {
+  margin: 0.9rem 0 0;
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  font-size: 0.92rem;
+}
+
+.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.chat-result {
+  margin-top: 1rem;
+  border: 1px solid #d7e5ff;
+  background: #f8fbff;
+  border-radius: 12px;
+  padding: 0.85rem;
+}
+
+.chat-result p {
+  margin: 0 0 0.65rem;
+  line-height: 1.45;
+}
+
+.chat-result p:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 800px) {
+  .page-shell {
+    margin: 2rem auto;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+}
