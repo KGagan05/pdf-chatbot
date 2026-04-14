@@ -1,7 +1,38 @@
+from PyPDF2 import PdfReader
+from sentence_transformers import SentenceTransformer
+import faiss
+import numpy as np
 from transformers import pipeline
-from rag import process_pdf, ask_question
+from rag import process_pdf, ask_question 
+
+# Load embedding model
+model = SentenceTransformer('all-MiniLM-L6-v2')
+
 # Load LLM
 qa_pipeline = pipeline("text-generation", model="google/flan-t5-base")
+
+chunks = []
+index = None
+
+
+def process_pdf(file):
+
+    global chunks, index
+
+    reader = PdfReader(file)
+    text = ""
+
+    for page in reader.pages:
+        text += page.extract_text() or ""
+
+    # Split text
+    chunks = [text[i:i+500] for i in range(0, len(text), 500)]
+
+    embeddings = model.encode(chunks)
+
+    index = faiss.IndexFlatL2(embeddings.shape[1])
+    index.add(np.array(embeddings))
+
 
 def ask_question(question):
 
@@ -22,36 +53,6 @@ def ask_question(question):
     Answer:
     """
 
-
     response = qa_pipeline(prompt, max_length=200)
 
     return response[0]['generated_text']
-
-from PyPDF2 import PdfReader
-from sentence_transformers import SentenceTransformer
-import faiss
-import numpy as np
-
-model = SentenceTransformer('all-MiniLM-L6-v2')
-
-chunks = []
-index = None
-
-
-def process_pdf(file):   # ✅ THIS MUST EXIST
-
-    global chunks, index
-
-    reader = PdfReader(file)
-    text = ""
-
-    for page in reader.pages:
-        text += page.extract_text() or ""
-
-    # Split into chunks
-    chunks = [text[i:i+500] for i in range(0, len(text), 500)]
-
-    embeddings = model.encode(chunks)
-
-    index = faiss.IndexFlatL2(embeddings.shape[1])
-    index.add(np.array(embeddings))
